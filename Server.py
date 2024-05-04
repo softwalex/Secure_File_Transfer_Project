@@ -8,45 +8,41 @@ UPLOAD_FOLFER = 'SERVER_FOLDER'
 BUFFER_SIZE = 4096
 
 def handle_client(client_socket):
-    while True:
-        # Receive the command from the client
-        command = client_socket.recv(BUFFER_SIZE).decode()
-        print("ok1")
+    # Receive the command from the client
+    command = client_socket.recv(BUFFER_SIZE).decode()
+    print("ok1")
 
-        if not command:
-            break
+    # Split the command into action and filename
+    action, filename = command.split()
 
-        # Split the command into action and filename
-        action, filename = command.split()
+    if action == "DOWNLOAD":
+        # Check if the file exists
+        file_path = os.path.join(UPLOAD_FOLFER, filename)
+        if os.path.exists(file_path):
+            # Send the file size to the client
+            client_socket.send(str(os.path.getsize(file_path)).encode())
+            client_socket.recv(BUFFER_SIZE)  # Wait for acknowledgment
 
-        if action == "DOWNLOAD":
-            # Check if the file exists
-            file_path = os.path.join(UPLOAD_FOLFER, filename)
-            if os.path.exists(file_path):
-                # Send the file size to the client
-                client_socket.send(str(os.path.getsize(file_path)).encode())
-                client_socket.recv(BUFFER_SIZE)  # Wait for acknowledgment
-
-                # Send the file contents to the client
-                with open(file_path, 'rb') as file:
+            # Send the file contents to the client
+            with open(file_path, 'rb') as file:
+                data = file.read(BUFFER_SIZE)
+                while data:
+                    client_socket.send(data)
                     data = file.read(BUFFER_SIZE)
-                    while data:
-                        client_socket.send(data)
-                        data = file.read(BUFFER_SIZE)
-            else:
-                client_socket.send(b"FILE_NOT_FOUND")
-            break
+        else:
+            client_socket.send(b"FILE_NOT_FOUND")
 
-        elif action == "UPLOAD":
+    elif action == "UPLOAD":
 
-            # Send acknowledgment
-            client_socket.send(b"READY")
+        # Send acknowledgment
+        client_socket.send(b"READY")
 
-            # Receive the file contents from the client and save it
-            file_path = os.path.join(UPLOAD_FOLFER, filename)
-            with open(file_path, 'wb') as file:
-                received_data = client_socket.recv(BUFFER_SIZE)
-                file.write(received_data)
+        # Receive the file contents from the client and save it
+        file_path = os.path.join(UPLOAD_FOLFER, filename)
+        with open(file_path, 'wb') as file:
+            received_data = client_socket.recv(BUFFER_SIZE)
+            print(str(received_data))
+            file.write(received_data)
                                 
     client_socket.close()
     
