@@ -10,7 +10,6 @@ BUFFER_SIZE = 4096
 def handle_client(client_socket):
     # Receive the command from the client
     command = client_socket.recv(BUFFER_SIZE).decode()
-    print("ok1")
 
     # Split the command into action and filename
     action, filename = command.split()
@@ -41,7 +40,6 @@ def handle_client(client_socket):
         file_path = os.path.join(UPLOAD_FOLFER, filename)
         with open(file_path, 'wb') as file:
             received_data = client_socket.recv(BUFFER_SIZE)
-            print(str(received_data))
             file.write(received_data)
                                 
     client_socket.close()
