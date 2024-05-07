@@ -1,9 +1,11 @@
 import socket
 import os
 
+#Server IP address and PORT
 HOST = '127.0.0.1'
 PORT = 12345
 
+#Folder name and BUFFER size
 UPLOAD_FOLFER = 'SERVER_FOLDER'
 BUFFER_SIZE = 4096
 

@@ -60,16 +60,20 @@ def upload_file(filename):
                 data = file.read(BUFFER_SIZE)
 
         print(f"File '{filename}' uploaded successfully.")
-        
+
+#Consle program for the user        
 def main():
+    #Choose upload or download
     print("To upload enter u")
     print("To download enter d")
     method_input = input("enter here: ")
     
+    #upload file to server
     if(method_input=='u'):
        file_to_upload = input("Enter the file path for upload:")
        upload_file(file_to_upload)
-       
+
+    #Download file from the server   
     elif(method_input=='d'):
         file_to_download = input("Enter the file name to download:")
         download_file(file_to_download)
