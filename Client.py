@@ -3,7 +3,7 @@ import os
 
 # Define the server's host and port
 SERVER_HOST = '127.0.0.1'  # Change this to the server's IP address if it's on a different machine
-SERVER_PORT = 12345        # Change this to the server's port number
+SERVER_PORT = 12345      # Change this to the server's port number
 
 BUFFER_SIZE = 4096
 
