@@ -1,2 +1,0 @@
-file to test the server
-IT WORKS!
