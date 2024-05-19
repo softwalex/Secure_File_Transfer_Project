@@ -35,16 +35,12 @@ def handle_client(client_socket):
             client_socket.send(b"FILE_NOT_FOUND")
 
     elif action == "UPLOAD":
-
         # Send acknowledgment
         client_socket.send(b"READY")
-
         # Get the filename from the source path
         fileToUpload = os.path.basename(filename)
-        
         # Construct the full path for the destination file
         destination_path = os.path.join(UPLOAD_FOLFER, fileToUpload)
-        
         # Copy the file from source to destination
         shutil.copy(filename, destination_path)
                                 
