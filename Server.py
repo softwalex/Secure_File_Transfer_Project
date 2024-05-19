@@ -1,5 +1,6 @@
 import socket
 import os
+import shutil
 
 #Server IP address and PORT
 HOST = '127.0.0.1'
@@ -38,11 +39,14 @@ def handle_client(client_socket):
         # Send acknowledgment
         client_socket.send(b"READY")
 
-        # Receive the file contents from the client and save it
-        file_path = os.path.join(UPLOAD_FOLFER, filename)
-        with open(file_path, 'wb') as file:
-            received_data = client_socket.recv(BUFFER_SIZE)
-            file.write(received_data)
+        # Get the filename from the source path
+        fileToUpload = os.path.basename(filename)
+        
+        # Construct the full path for the destination file
+        destination_path = os.path.join(UPLOAD_FOLFER, fileToUpload)
+        
+        # Copy the file from source to destination
+        shutil.copy(filename, destination_path)
                                 
     client_socket.close()
     

@@ -52,13 +52,6 @@ def upload_file(filename):
             print("Server is not ready to receive the file.")
             return
 
-        # Send the file contents to the server
-        with open(filename, 'rb') as file:
-            data = file.read(BUFFER_SIZE)
-            while data:
-                client_socket.send(data)
-                data = file.read(BUFFER_SIZE)
-
         print(f"File '{filename}' uploaded successfully.")
 
 #Consle program for the user        
